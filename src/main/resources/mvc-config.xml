@@ -8,6 +8,7 @@
                           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- Enable MVC -->
+    <!-- Enable MVC -->
     <mvc:annotation-driven />
     
     <!-- Static resources -->
