@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Student Marks Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .error-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f8f8f8;
+            border-left: 5px solid #e74c3c;
+            padding: 20px;
+            border-radius: 4px;
+        }
+        h1 {
+            color: #e74c3c;
+            margin-top: 0;
+        }
+        .error-details {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Oops! Something went wrong</h1>
+        <p>We're sorry, but an error occurred while processing your request.</p>
+        
+        <div class="error-details">
+            <p><strong>Status:</strong> <span th:text="${status}">500</span></p>
+            <p><strong>Message:</strong> <span th:text="${message}">Error message</span></p>
+            <p><strong>Type:</strong> <span th:text="${exceptionType}">Exception type</span></p>
+        </div>
+        
+        <p>Please try the following:</p>
+        <ul>
+            <li>Return to the <a th:href="@{/}" class="back-link">home page</a></li>
+            <li>Try again after some time</li>
+            <li>Contact the administrator if the problem persists</li>
+        </ul>
+        
+        <a th:href="@{/}" class="back-link">← Back to home</a>
+    </div>
+</body>
+</html> 

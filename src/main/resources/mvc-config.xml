@@ -52,4 +52,6 @@
     <bean id="subjectController" class="com.bnpp.pb.lynx.controller.SubjectController">
         <property name="subjectService" ref="subjectService" />
     </bean>
+    
+    <bean id="customErrorController" class="com.bnpp.pb.lynx.controller.CustomErrorController" />
 </beans> 
