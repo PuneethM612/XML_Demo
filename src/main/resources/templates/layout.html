@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marks Management System</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Student Marks Management System</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/students}">Students</a></li>
+                <li><a th:href="@{/marks}">Marks Management</a></li>
+                <li><a th:href="@{/rankers}">Top Rankers</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container" th:fragment="content">
+            <!-- Content will be inserted here -->
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Student Marks Management System</p>
+    </footer>
+</body>
+</html> 

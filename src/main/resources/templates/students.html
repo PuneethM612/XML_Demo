@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students Management</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Student Marks Management System</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/students}" class="active">Students</a></li>
+                <li><a th:href="@{/marks}">Marks Management</a></li>
+                <li><a th:href="@{/rankers}">Top Rankers</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Add New Student</h2>
+            
+            <div class="error-message" th:if="${error != null}">
+                <p th:text="${error}"></p>
+            </div>
+            
+            <form method="post" th:action="@{/students}" th:object="${student}">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" th:field="*{name}" required>
+                </div>
+                <div class="form-group">
+                    <label for="rollNum">Roll Number:</label>
+                    <input type="text" id="rollNum" th:field="*{rollNum}" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Add Student</button>
+                </div>
+            </form>
+            
+            <h2>Existing Students</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="s : ${students}">
+                        <td th:text="${s.rollNum}"></td>
+                        <td th:text="${s.name}"></td>
+                        <td>
+                            <a th:href="@{/marks/search(rollNum=${s.rollNum}, examType='monthly')}" class="btn-view">View Marks</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(students)}">
+                        <td colspan="3">No students found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Student Marks Management System</p>
+    </footer>
+</body>
+</html> 

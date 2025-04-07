@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Student Marks</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Student Marks Management System</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/students}">Students</a></li>
+                <li><a th:href="@{/marks}" class="active">Marks Management</a></li>
+                <li><a th:href="@{/rankers}">Top Rankers</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Search Student Marks</h2>
+            
+            <div class="error-message" th:if="${error != null}">
+                <p th:text="${error}"></p>
+            </div>
+            
+            <form method="get" th:action="@{/marks/search}">
+                <div class="form-group">
+                    <label for="rollNum">Roll Number:</label>
+                    <input type="text" id="rollNum" name="rollNum" required>
+                </div>
+                <div class="form-group">
+                    <label for="examType">Exam Type:</label>
+                    <select id="examType" name="examType" required>
+                        <option value="">-- Select Exam Type --</option>
+                        <option th:each="type : ${examTypes}" th:value="${type}" th:text="${#strings.capitalize(type)}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Student Marks Management System</p>
+    </footer>
+</body>
+</html> 
