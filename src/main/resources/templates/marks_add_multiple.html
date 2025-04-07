@@ -27,6 +27,11 @@
                 <p><strong>Exam Type:</strong> <span th:text="${#strings.capitalize(examType)}"></span></p>
             </div>
             
+            <div class="info-message" style="background-color: #e7f3fe; border-left: 6px solid #2196F3; margin: 15px 0; padding: 10px;">
+                <p><strong>Instructions:</strong> Enter marks (0-100) for each subject below. Existing marks will be shown if available.</p>
+                <p>Click "Save All Marks" when you are done to save all entries at once.</p>
+            </div>
+            
             <form method="post" th:action="@{/marks/save-multiple}">
                 <input type="hidden" name="rollNum" th:value="${student.rollNum}" />
                 <input type="hidden" name="examType" th:value="${examType}" />

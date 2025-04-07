@@ -71,9 +71,11 @@
                 </div>
             </form>
             
-            <div class="actions">
-                <a th:href="@{/marks/add-multiple(rollNum=${student.rollNum},examType=${examType})}" class="btn-primary">Add Marks for Multiple Subjects</a>
-                <a th:href="@{/marks}" class="btn-secondary">Back to Search</a>
+            <div class="actions" style="margin-top: 30px;">
+                <h3>Bulk Marks Entry</h3>
+                <p>Use this option to add marks for all subjects at once for this student.</p>
+                <a th:href="@{/marks/add-multiple(rollNum=${student.rollNum},examType=${examType})}" class="btn-primary" style="display: inline-block; padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">Add Marks for All Subjects</a>
+                <a th:href="@{/marks}" class="btn-secondary" style="margin-left: 10px;">Back to Search</a>
             </div>
         </div>
     </main>

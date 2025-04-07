@@ -22,6 +22,11 @@
         <div class="container">
             <h2>Search Student Marks</h2>
             
+            <div class="info-message" style="background-color: #e7f3fe; border-left: 6px solid #2196F3; margin-bottom: 15px; padding: 10px;">
+                <p><strong>How it works:</strong> Enter a student's roll number and select an exam type, then click "Search".</p>
+                <p>You'll be able to view existing marks and add marks for individual subjects or all subjects at once.</p>
+            </div>
+            
             <div class="error-message" th:if="${error != null}">
                 <p th:text="${error}"></p>
             </div>
