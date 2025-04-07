@@ -1,5 +1,6 @@
 package com.bnpp.pb.lynx.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,17 +111,32 @@ public class MarksController {
     public String saveMultipleMarks(
             @RequestParam("rollNum") String rollNum,
             @RequestParam("examType") String examType,
-            @RequestParam("subjectIds[]") int[] subjectIds,
-            @RequestParam("marks[]") int[] marksValues,
-            Model model) {
+            @RequestParam Map<String, String> params) {
+        
+        List<Integer> subjectIds = new ArrayList<>();
+        List<Integer> marksValues = new ArrayList<>();
+        
+        // Extract subject IDs and marks from the request parameters
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            
+            if (key.startsWith("subjectIds[") && key.endsWith("]")) {
+                int subjectId = Integer.parseInt(value);
+                subjectIds.add(subjectId);
+            } else if (key.startsWith("marks[") && key.endsWith("]")) {
+                int marks = Integer.parseInt(value);
+                marksValues.add(marks);
+            }
+        }
         
         // Save marks for each subject
-        for (int i = 0; i < subjectIds.length; i++) {
+        for (int i = 0; i < subjectIds.size(); i++) {
             Marks marks = new Marks();
             marks.setRollNum(rollNum);
             marks.setExamType(examType);
-            marks.setSubjectId(subjectIds[i]);
-            marks.setMarks(marksValues[i]);
+            marks.setSubjectId(subjectIds.get(i));
+            marks.setMarks(marksValues.get(i));
             
             marksService.saveOrUpdateMarks(marks);
         }
