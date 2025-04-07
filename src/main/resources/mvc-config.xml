@@ -14,7 +14,7 @@
     <mvc:resources mapping="/static/**" location="classpath:/static/" />
     
     <!-- Thymeleaf template resolver -->
-    <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+    <bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
         <property name="prefix" value="classpath:/templates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML" />
@@ -22,13 +22,13 @@
     </bean>
     
     <!-- Thymeleaf template engine -->
-    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
         <property name="enableSpringELCompiler" value="true" />
     </bean>
     
     <!-- Thymeleaf view resolver -->
-    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+    <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine" />
         <property name="characterEncoding" value="UTF-8" />
     </bean>
