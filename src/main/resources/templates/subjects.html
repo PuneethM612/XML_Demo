@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Management - Student Marks Management System</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Student Marks Management System</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/students}">Students</a></li>
+                <li><a th:href="@{/subjects}">Subjects</a></li>
+                <li><a th:href="@{/marks}">Marks Management</a></li>
+                <li><a th:href="@{/rankers}">Top Rankers</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Subject Management</h2>
+            
+            <div class="error-message" th:if="${error}">
+                <p th:text="${error}"></p>
+            </div>
+            
+            <section class="add-subject-form">
+                <h3>Add New Subject</h3>
+                <form th:action="@{/subjects}" method="post" th:object="${subject}">
+                    <div class="form-group">
+                        <label for="subjectName">Subject Name:</label>
+                        <input type="text" id="subjectName" th:field="*{subjectName}" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Add Subject</button>
+                    </div>
+                </form>
+            </section>
+            
+            <section class="subjects-list">
+                <h3>Available Subjects</h3>
+                <div th:if="${subjects.isEmpty()}">
+                    <p>No subjects available.</p>
+                </div>
+                <table th:if="${!subjects.isEmpty()}">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Subject Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="subject : ${subjects}">
+                            <td th:text="${subject.subjectId}"></td>
+                            <td th:text="${subject.subjectName}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Student Marks Management System</p>
+    </footer>
+</body>
+</html> 

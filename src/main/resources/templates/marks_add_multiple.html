@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Marks for Multiple Subjects</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Student Marks Management System</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/students}">Students</a></li>
+                <li><a th:href="@{/subjects}">Subjects</a></li>
+                <li><a th:href="@{/marks}" class="active">Marks Management</a></li>
+                <li><a th:href="@{/rankers}">Top Rankers</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Add Marks for <span th:text="${student.name}"></span></h2>
+            
+            <div class="student-info">
+                <p><strong>Roll Number:</strong> <span th:text="${student.rollNum}"></span></p>
+                <p><strong>Exam Type:</strong> <span th:text="${#strings.capitalize(examType)}"></span></p>
+            </div>
+            
+            <form method="post" th:action="@{/marks/save-multiple}">
+                <input type="hidden" name="rollNum" th:value="${student.rollNum}" />
+                <input type="hidden" name="examType" th:value="${examType}" />
+                
+                <table class="marks-entry-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="subject, stat : ${subjects}">
+                            <td th:text="${subject.subjectName}"></td>
+                            <td>
+                                <input type="hidden" th:name="'subjectIds[' + ${stat.index} + ']'" th:value="${subject.subjectId}" />
+                                <input type="number" th:name="'marks[' + ${stat.index} + ']'" 
+                                      th:value="${marksMap.containsKey(subject.subjectId) ? marksMap.get(subject.subjectId) : ''}"
+                                      min="0" max="100" required />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Save All Marks</button>
+                    <a th:href="@{/marks}" class="btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Student Marks Management System</p>
+    </footer>
+</body>
+</html> 

@@ -48,4 +48,8 @@
     <bean id="rankerController" class="com.bnpp.pb.lynx.controller.RankerController">
         <property name="marksService" ref="marksService" />
     </bean>
+    
+    <bean id="subjectController" class="com.bnpp.pb.lynx.controller.SubjectController">
+        <property name="subjectService" ref="subjectService" />
+    </bean>
 </beans> 

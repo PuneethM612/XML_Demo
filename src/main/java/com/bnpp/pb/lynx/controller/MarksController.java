@@ -1,6 +1,8 @@
 package com.bnpp.pb.lynx.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bnpp.pb.lynx.model.Marks;
 import com.bnpp.pb.lynx.model.Student;
+import com.bnpp.pb.lynx.model.Subject;
 import com.bnpp.pb.lynx.service.MarksService;
 import com.bnpp.pb.lynx.service.StudentService;
 import com.bnpp.pb.lynx.service.SubjectService;
@@ -67,5 +70,61 @@ public class MarksController {
     public String updateMarks(@ModelAttribute Marks marks, Model model) {
         marksService.saveOrUpdateMarks(marks);
         return "redirect:/marks/search?rollNum=" + marks.getRollNum() + "&examType=" + marks.getExamType();
+    }
+    
+    @GetMapping("/marks/add-multiple")
+    public String addMultipleMarksForm(
+            @RequestParam("rollNum") String rollNum,
+            @RequestParam("examType") String examType,
+            Model model) {
+        
+        Student student = studentService.getStudentByRollNum(rollNum);
+        
+        if (student == null) {
+            model.addAttribute("error", "No student found with Roll Number: " + rollNum);
+            model.addAttribute("examTypes", new String[]{"monthly", "mid", "annual"});
+            return "marks_search";
+        }
+        
+        // Get all subjects
+        List<Subject> subjects = subjectService.getAllSubjects();
+        
+        // Get existing marks for this student and exam
+        List<Marks> existingMarks = marksService.getMarksByRollNumAndExamType(rollNum, examType);
+        
+        // Create a map of subjectId -> marks value for easier access in the template
+        Map<Integer, Integer> marksMap = new HashMap<>();
+        for (Marks mark : existingMarks) {
+            marksMap.put(mark.getSubjectId(), mark.getMarks());
+        }
+        
+        model.addAttribute("student", student);
+        model.addAttribute("examType", examType);
+        model.addAttribute("subjects", subjects);
+        model.addAttribute("marksMap", marksMap);
+        
+        return "marks_add_multiple";
+    }
+    
+    @PostMapping("/marks/save-multiple")
+    public String saveMultipleMarks(
+            @RequestParam("rollNum") String rollNum,
+            @RequestParam("examType") String examType,
+            @RequestParam("subjectIds[]") int[] subjectIds,
+            @RequestParam("marks[]") int[] marksValues,
+            Model model) {
+        
+        // Save marks for each subject
+        for (int i = 0; i < subjectIds.length; i++) {
+            Marks marks = new Marks();
+            marks.setRollNum(rollNum);
+            marks.setExamType(examType);
+            marks.setSubjectId(subjectIds[i]);
+            marks.setMarks(marksValues[i]);
+            
+            marksService.saveOrUpdateMarks(marks);
+        }
+        
+        return "redirect:/marks/search?rollNum=" + rollNum + "&examType=" + examType;
     }
 } 
