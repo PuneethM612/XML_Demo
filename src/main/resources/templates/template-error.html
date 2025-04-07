@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Template Error</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1 { color: #d9534f; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .back-link { display: inline-block; margin-top: 20px; text-decoration: none; color: #0275d8; }
+    </style>
+</head>
+<body>
+    <h1>Template Error</h1>
+    <p>There was an error processing the template:</p>
+    
+    <h2>Template Information</h2>
+    <ul>
+        <li><strong>Template name:</strong> <span th:text="${templateName}">Unknown</span></li>
+        <li><strong>Status code:</strong> <span th:text="${status}">500</span></li>
+    </ul>
+    
+    <h2>Error Message</h2>
+    <pre th:text="${message}">Unknown error</pre>
+    
+    <a href="/" class="back-link">← Back to home</a>
+</body>
+</html> 

@@ -79,6 +79,8 @@ public class MarksController {
             @RequestParam("examType") String examType,
             Model model) {
         
+        System.out.println("DEBUG: Entering addMultipleMarksForm method with rollNum=" + rollNum + ", examType=" + examType);
+        
         Student student = studentService.getStudentByRollNum(rollNum);
         
         if (student == null) {
@@ -104,7 +106,9 @@ public class MarksController {
         model.addAttribute("subjects", subjects);
         model.addAttribute("marksMap", marksMap);
         
-        return "marks_add_multiple";
+        System.out.println("DEBUG: Returning template name: 'marks_add_multiple'");
+        // Explicitly return with no spaces in the name
+        return new String("marks_add_multiple");
     }
     
     @PostMapping("/marks/save-multiple")

@@ -20,6 +20,8 @@
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML" />
         <property name="cacheable" value="false" />
+        <property name="characterEncoding" value="UTF-8" />
+        <property name="checkExistence" value="true" />
     </bean>
     
     <!-- Thymeleaf template engine -->
