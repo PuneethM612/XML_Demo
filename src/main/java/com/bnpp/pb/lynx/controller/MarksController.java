@@ -70,9 +70,34 @@ public class MarksController {
     }
     
     @PostMapping("/marks/update")
-    public String updateMarks(@ModelAttribute Marks marks, Model model) {
-        marksService.saveOrUpdateMarks(marks);
-        return "redirect:/marks/search?rollNum=" + marks.getRollNum() + "&examType=" + marks.getExamType();
+    public String updateMarks(
+            @RequestParam("rollNum") String rollNum,
+            @RequestParam("examType") String examType,
+            @RequestParam(value = "subjectId", required = true) Integer subjectId,
+            @RequestParam(value = "marks", required = true) Integer marks) {
+        
+        System.out.println("DEBUG: Updating marks for rollNum=" + rollNum + ", examType=" + examType + 
+                          ", subjectId=" + subjectId + ", marks=" + marks);
+        
+        try {
+            if (rollNum == null || examType == null || subjectId == null || marks == null) {
+                System.out.println("ERROR: Required parameters are missing");
+                return "redirect:/marks/search?rollNum=" + rollNum + "&examType=" + examType + "&error=missing_params";
+            }
+            
+            Marks marksObj = new Marks();
+            marksObj.setRollNum(rollNum);
+            marksObj.setExamType(examType);
+            marksObj.setSubjectId(subjectId);
+            marksObj.setMarks(marks);
+            
+            marksService.saveOrUpdateMarks(marksObj);
+            return "redirect:/marks/search?rollNum=" + rollNum + "&examType=" + examType + "&success=true";
+        } catch (Exception e) {
+            System.out.println("ERROR: Exception occurred while updating marks: " + e.getMessage());
+            e.printStackTrace();
+            return "redirect:/marks/search?rollNum=" + rollNum + "&examType=" + examType + "&error=" + e.getMessage();
+        }
     }
     
     @GetMapping("/marks/add-multiple")
@@ -132,13 +157,17 @@ public class MarksController {
                 String value = entry.getValue();
                 
                 if (key.startsWith("subjectIds[") && key.endsWith("]")) {
-                    int subjectId = Integer.parseInt(value);
-                    subjectIds.add(subjectId);
-                    System.out.println("DEBUG: Added subject ID: " + subjectId);
+                    if (value != null && !value.trim().isEmpty()) {
+                        int subjectId = Integer.parseInt(value);
+                        subjectIds.add(subjectId);
+                        System.out.println("DEBUG: Added subject ID: " + subjectId);
+                    }
                 } else if (key.startsWith("marks[") && key.endsWith("]")) {
-                    int marks = Integer.parseInt(value);
-                    marksValues.add(marks);
-                    System.out.println("DEBUG: Added marks value: " + marks);
+                    if (value != null && !value.trim().isEmpty()) {
+                        int marks = Integer.parseInt(value);
+                        marksValues.add(marks);
+                        System.out.println("DEBUG: Added marks value: " + marks);
+                    }
                 }
             }
             

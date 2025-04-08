@@ -2,9 +2,9 @@ package com.bnpp.pb.lynx.model;
 
 public class Marks {
     private String rollNum;
-    private int subjectId;
+    private Integer subjectId;
     private String examType;
-    private int marks;
+    private Integer marks;
     
     // Additional fields for display
     private String studentName;
@@ -13,7 +13,7 @@ public class Marks {
     public Marks() {
     }
     
-    public Marks(String rollNum, int subjectId, String examType, int marks) {
+    public Marks(String rollNum, Integer subjectId, String examType, Integer marks) {
         this.rollNum = rollNum;
         this.subjectId = subjectId;
         this.examType = examType;
@@ -28,11 +28,11 @@ public class Marks {
         this.rollNum = rollNum;
     }
     
-    public int getSubjectId() {
+    public Integer getSubjectId() {
         return subjectId;
     }
     
-    public void setSubjectId(int subjectId) {
+    public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
     }
     
@@ -44,11 +44,11 @@ public class Marks {
         this.examType = examType;
     }
     
-    public int getMarks() {
+    public Integer getMarks() {
         return marks;
     }
     
-    public void setMarks(int marks) {
+    public void setMarks(Integer marks) {
         this.marks = marks;
     }
     
