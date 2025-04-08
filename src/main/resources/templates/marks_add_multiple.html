@@ -20,11 +20,12 @@
     
     <main>
         <div class="container">
-            <h2>Add Marks for <span th:text="${student.name}"></span></h2>
+            <h2>Add Marks for Student</h2>
             
-            <div class="student-info">
-                <p><strong>Roll Number:</strong> <span th:text="${student.rollNum}"></span></p>
-                <p><strong>Exam Type:</strong> <span th:text="${#strings.capitalize(examType)}"></span></p>
+            <div th:if="${student != null}">
+                <p><strong>Student Name:</strong> <span th:text="${student.name}">Student Name</span></p>
+                <p><strong>Roll Number:</strong> <span th:text="${student.rollNum}">Roll Number</span></p>
+                <p><strong>Exam Type:</strong> <span th:text="${examType}">Exam Type</span></p>
             </div>
             
             <div class="info-message" style="background-color: #e7f3fe; border-left: 6px solid #2196F3; margin: 15px 0; padding: 10px;">
@@ -33,10 +34,10 @@
             </div>
             
             <form method="post" th:action="@{/marks/save-multiple}">
-                <input type="hidden" name="rollNum" th:value="${student.rollNum}" />
-                <input type="hidden" name="examType" th:value="${examType}" />
+                <input type="hidden" name="rollNum" th:value="${student != null ? student.rollNum : ''}">
+                <input type="hidden" name="examType" th:value="${examType != null ? examType : ''}">
                 
-                <table class="marks-entry-table">
+                <table>
                     <thead>
                         <tr>
                             <th>Subject</th>
@@ -44,21 +45,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="subject, stat : ${subjects}">
-                            <td th:text="${subject.subjectName}"></td>
+                        <tr th:if="${subjects != null}" th:each="subject, stat : ${subjects}">
+                            <td th:text="${subject.subjectName}">Subject Name</td>
                             <td>
-                                <input type="hidden" name="subjectIds" th:name="'subjectIds[' + ${stat.index} + ']'" th:value="${subject.subjectId}" />
-                                <input type="number" name="marks" th:name="'marks[' + ${stat.index} + ']'" 
-                                      th:value="${marksMap.containsKey(subject.subjectId) ? marksMap.get(subject.subjectId) : ''}"
-                                      min="0" max="100" required />
+                                <input type="hidden" name="subjectIds" th:name="'subjectIds[' + ${stat.index} + ']'" th:value="${subject.subjectId}">
+                                <input type="number" name="marks" th:name="'marks[' + ${stat.index} + ']'" min="0" max="100" required>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary">Save All Marks</button>
-                    <a th:href="@{/marks}" class="btn-secondary">Cancel</a>
+                    <button type="submit">Save All Marks</button>
+                    <a th:href="@{/marks}">Cancel</a>
                 </div>
             </form>
         </div>

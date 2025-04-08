@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +19,7 @@ import com.bnpp.pb.lynx.service.MarksService;
 import com.bnpp.pb.lynx.service.StudentService;
 import com.bnpp.pb.lynx.service.SubjectService;
 
+@Controller
 public class MarksController {
     
     private MarksService marksService;
@@ -107,8 +109,8 @@ public class MarksController {
         model.addAttribute("marksMap", marksMap);
         
         System.out.println("DEBUG: Returning template name: 'marks_add_multiple'");
-        // Explicitly return with no spaces in the name
-        return new String("marks_add_multiple");
+        // Use a hardcoded template name to avoid any issue with string construction
+        return "marks_add_multiple";
     }
     
     @PostMapping("/marks/save-multiple")
