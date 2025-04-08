@@ -119,34 +119,54 @@ public class MarksController {
             @RequestParam("examType") String examType,
             @RequestParam Map<String, String> params) {
         
-        List<Integer> subjectIds = new ArrayList<>();
-        List<Integer> marksValues = new ArrayList<>();
+        System.out.println("DEBUG: Received save-multiple request with rollNum=" + rollNum + ", examType=" + examType);
+        System.out.println("DEBUG: All parameters: " + params);
         
-        // Extract subject IDs and marks from the request parameters
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
+        try {
+            List<Integer> subjectIds = new ArrayList<>();
+            List<Integer> marksValues = new ArrayList<>();
             
-            if (key.startsWith("subjectIds[") && key.endsWith("]")) {
-                int subjectId = Integer.parseInt(value);
-                subjectIds.add(subjectId);
-            } else if (key.startsWith("marks[") && key.endsWith("]")) {
-                int marks = Integer.parseInt(value);
-                marksValues.add(marks);
+            // Extract subject IDs and marks from the request parameters
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                
+                if (key.startsWith("subjectIds[") && key.endsWith("]")) {
+                    int subjectId = Integer.parseInt(value);
+                    subjectIds.add(subjectId);
+                    System.out.println("DEBUG: Added subject ID: " + subjectId);
+                } else if (key.startsWith("marks[") && key.endsWith("]")) {
+                    int marks = Integer.parseInt(value);
+                    marksValues.add(marks);
+                    System.out.println("DEBUG: Added marks value: " + marks);
+                }
             }
-        }
-        
-        // Save marks for each subject
-        for (int i = 0; i < subjectIds.size(); i++) {
-            Marks marks = new Marks();
-            marks.setRollNum(rollNum);
-            marks.setExamType(examType);
-            marks.setSubjectId(subjectIds.get(i));
-            marks.setMarks(marksValues.get(i));
             
-            marksService.saveOrUpdateMarks(marks);
+            System.out.println("DEBUG: Found " + subjectIds.size() + " subjects and " + marksValues.size() + " marks values");
+            
+            // Validate we have matching arrays
+            if (subjectIds.size() != marksValues.size()) {
+                System.out.println("ERROR: Mismatch between subject IDs and marks values count");
+                return "redirect:/marks/search?rollNum=" + rollNum + "&examType=" + examType + "&error=true";
+            }
+            
+            // Save marks for each subject
+            for (int i = 0; i < subjectIds.size(); i++) {
+                Marks marks = new Marks();
+                marks.setRollNum(rollNum);
+                marks.setExamType(examType);
+                marks.setSubjectId(subjectIds.get(i));
+                marks.setMarks(marksValues.get(i));
+                
+                System.out.println("DEBUG: Saving marks: " + marks);
+                marksService.saveOrUpdateMarks(marks);
+            }
+            
+            return "redirect:/marks/search?rollNum=" + rollNum + "&examType=" + examType + "&success=true";
+        } catch (Exception e) {
+            System.out.println("ERROR: Exception occurred while saving marks: " + e.getMessage());
+            e.printStackTrace();
+            return "redirect:/marks/search?rollNum=" + rollNum + "&examType=" + examType + "&error=" + e.getMessage();
         }
-        
-        return "redirect:/marks/search?rollNum=" + rollNum + "&examType=" + examType;
     }
 } 

@@ -35,7 +35,15 @@
             
             <form method="post" th:action="@{/marks/save-multiple}">
                 <input type="hidden" name="rollNum" th:value="${student != null ? student.rollNum : ''}">
-                <input type="hidden" name="examType" th:value="${examType != null ? examType : ''}">
+                
+                <div class="form-group">
+                    <label for="examType"><strong>Exam Type:</strong></label>
+                    <select id="examType" name="examType" required>
+                        <option value="monthly" th:selected="${examType == 'monthly'}">Monthly Exam</option>
+                        <option value="mid" th:selected="${examType == 'mid'}">Mid Term</option>
+                        <option value="annual" th:selected="${examType == 'annual'}">Annual Exam</option>
+                    </select>
+                </div>
                 
                 <table>
                     <thead>
