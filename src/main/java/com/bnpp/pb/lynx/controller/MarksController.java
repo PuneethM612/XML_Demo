@@ -109,7 +109,7 @@ public class MarksController {
         model.addAttribute("marksMap", marksMap);
         
         System.out.println("DEBUG: Returning template name: 'marks_add_multiple'");
-        // Use a hardcoded template name to avoid any issue with string construction
+        // Ensure the template name matches exactly with the file name (no spaces)
         return "marks_add_multiple";
     }
     

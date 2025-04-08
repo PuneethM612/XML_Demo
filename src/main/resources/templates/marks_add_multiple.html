@@ -49,7 +49,9 @@
                             <td th:text="${subject.subjectName}">Subject Name</td>
                             <td>
                                 <input type="hidden" name="subjectIds" th:name="'subjectIds[' + ${stat.index} + ']'" th:value="${subject.subjectId}">
-                                <input type="number" name="marks" th:name="'marks[' + ${stat.index} + ']'" min="0" max="100" required>
+                                <input type="number" name="marks" th:name="'marks[' + ${stat.index} + ']'" 
+                                       th:value="${marksMap.containsKey(subject.subjectId) ? marksMap.get(subject.subjectId) : ''}"
+                                       min="0" max="100" required>
                             </td>
                         </tr>
                     </tbody>
