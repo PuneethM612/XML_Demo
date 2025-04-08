@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Marks for Multiple Subjects</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Student Marks Management System</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/students}">Students</a></li>
+                <li><a th:href="@{/subjects}">Subjects</a></li>
+                <li><a th:href="@{/marks}" class="active">Marks Management</a></li>
+                <li><a th:href="@{/rankers}">Top Rankers</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Add Marks for Student</h2>
+            
+            <div th:if="${student != null}">
+                <p><strong>Student Name:</strong> <span th:text="${student.name}">Student Name</span></p>
+                <p><strong>Roll Number:</strong> <span th:text="${student.rollNum}">Roll Number</span></p>
+                <p><strong>Exam Type:</strong> <span th:text="${examType}">Exam Type</span></p>
+            </div>
+            
+            <div class="info-message" style="background-color: #e7f3fe; border-left: 6px solid #2196F3; margin: 15px 0; padding: 10px;">
+                <p><strong>Instructions:</strong> Enter marks (0-100) for each subject below. Existing marks will be shown if available.</p>
+                <p>Click "Save All Marks" when you are done to save all entries at once.</p>
+            </div>
+            
+            <form method="post" th:action="@{/marks/save-multiple}">
+                <input type="hidden" name="rollNum" th:value="${student != null ? student.rollNum : ''}">
+                <input type="hidden" name="examType" th:value="${examType != null ? examType : ''}">
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${subjects != null}" th:each="subject, stat : ${subjects}">
+                            <td th:text="${subject.subjectName}">Subject Name</td>
+                            <td>
+                                <input type="hidden" name="subjectIds" th:name="'subjectIds[' + ${stat.index} + ']'" th:value="${subject.subjectId}">
+                                <input type="number" name="marks" th:name="'marks[' + ${stat.index} + ']'" 
+                                       th:value="${marksMap.containsKey(subject.subjectId) ? marksMap.get(subject.subjectId) : ''}"
+                                       min="0" max="100" required>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="form-actions">
+                    <button type="submit">Save All Marks</button>
+                    <a th:href="@{/marks}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Student Marks Management System</p>
+    </footer>
+</body>
+</html> 

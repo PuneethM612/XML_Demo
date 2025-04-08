@@ -108,9 +108,9 @@ public class MarksController {
         model.addAttribute("subjects", subjects);
         model.addAttribute("marksMap", marksMap);
         
-        System.out.println("DEBUG: Returning template name: 'marks_add_multiple'");
-        // Ensure the template name matches exactly with the file name (no spaces)
-        return "marks_add_multiple";
+        System.out.println("DEBUG: Returning template name: 'marks_form'");
+        // Use a simpler template name to avoid any issues with underscores
+        return "marks_form";
     }
     
     @PostMapping("/marks/save-multiple")
